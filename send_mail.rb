@@ -1,39 +1,31 @@
 require 'pony'
-
-# Подключаем библиотеку для работы с консолью io/console
 require 'io/console'
 
-# Спрашиваем пароль от почты, с которой будет отправлено письмо. Вместо обычного
-# gets используем специальный метод из библиотеки 'io/console', который скрывает
-# вводимые символы (чтобы не палить пароль, если вдруг кто-то смотрит).
+# When entering the password in a console it will be not visible for others
+# through the library 'io/console'
+puts "Please enter your email"
+my_mail = STDIN.gets.chomp
 
-puts "Введите адрес вашей почты для отправки письма:"
-my_mail = STDIN.noecho(&:gets).chomp
-
-puts "Введите пароль от вашей почты #{my_mail} для отправки письма:"
+# If sending through google account please generate an application specific password
+# Follow the instructions here https://support.google.com/accounts/answer/185833?hl=en
+puts "Please enter the password from your #{my_mail}"
 password = STDIN.noecho(&:gets).chomp
 
-
-# Спрашиваем у пользователя адрес электронной почты получателя письма
-puts "Кому отправить письмо? Введите адрес:"
+puts "Please enter an email receiver"
 send_to = STDIN.gets.chomp
 
-puts "Введите тему письма"
+puts "Please enter the subject"
 subject = STDIN.gets.chomp
 
-# Наконец, спрашиваем у пользователя, что написать в письме. Весь введенный
-# пользователем текст мы преобразуем в правильную кодировку, чтобы не было
-# сюрпризов при использовании русских букв.
-puts "Что написать в письме?"
+puts "Please enter your message"
 body = STDIN.gets.encode("UTF-8").chomp
 
-# Отправляем письмо, используя класс Pony из библиотеки pony
+# Sending a message via Pony gem
 Pony.mail(
-  subject: subject, # тема письма
-  body: body, # текст письма, его тело
-  to: send_to, # кому отправить письмо
-  from: my_mail, # от кого письмо (наш обратный адрес)
-
+  subject: subject,
+  body: body,
+  to: send_to,
+  from: my_mail,
   via: :smtp,
   via_options: {
       address: 'smtp.gmail.com',
@@ -46,8 +38,4 @@ Pony.mail(
 
 )
 
-puts "Письмо отправлено!"
-
-
-
-
+puts "Congratulations! Your message was just sent."
