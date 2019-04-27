@@ -15,7 +15,7 @@ bundle install
 ## Project execution
 Navigate to project directory and execute the following command from a terminal 
 ````
-ruby send_mail.rb
+bundle exec ruby send_mail.rb
 ````
 You will be asked following questions to enter information before sending an email
 ````
